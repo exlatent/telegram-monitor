@@ -9,9 +9,5 @@ return [
             'app_id' => getenv('MTPROTO_APP_ID'),
             'app_hash' => getenv('MTPROTO_APP_HASH'),
         ],
-    ],
-    'monitor' => [
-        'interval' => (int)(getenv('MONITOR_INTERVAL') ?: 30),
-        'digestCheckInterval' => (int)(getenv('DIGEST_CHECK_INTERVAL') ?: 5),
-    ],
+    ]
 ];
