@@ -66,7 +66,7 @@
     <div v-else-if="view === 'list'">
         <div class="nav-header d-flex justify-content-between align-items-center">
             <span>Мои проекты</span>
-            <button @click="goToCreate" class="btn btn-sm btn-primary">Создать</button>
+            <button @click="goToCreate" class="btn btn-sm btn-primary d-flex align-baseline">Создать</button>
         </div>
         <div v-for="project in projects" :key="project.id" class="card shadow-sm" @click="openProject(project.id)">
             <div class="card-body d-flex justify-content-between align-items-center">
@@ -148,10 +148,11 @@
         </div>
         <div class="mb-4">
             <label class="section-title">Интервал дайджеста (мин)</label>
-            <input v-model="newProject.interval" type="number" class="form-control form-control-lg border-0 shadow-sm">
+            <input v-model.number="newProject.interval" type="number" class="form-control form-control-lg border-0 shadow-sm" min="5" required>
+            <div v-if="newProject.interval < 5" class="text-danger small mt-1">Минимальный интервал - 5 минут</div>
             <div class="small opacity-50 mt-1">Как часто присылать отчет</div>
         </div>
-        <button @click="createProject" class="btn btn-primary w-100 btn-lg shadow">Создать проект</button>
+        <button @click="createProject" class="btn btn-primary w-100 btn-lg shadow" :disabled="!newProject.name || !newProject.interval || newProject.interval < 5">Создать проект</button>
     </div>
 </div>
 
@@ -218,7 +219,7 @@
             };
 
             const createProject = async () => {
-                if (!newProject.value.name) return;
+                if (!newProject.value.name || !newProject.value.interval || newProject.value.interval < 5) return;
                 await apiFetch('create-project', { method: 'POST', body: JSON.stringify(newProject.value) });
                 goBack();
             };

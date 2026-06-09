@@ -36,6 +36,9 @@ class ProjectRecord extends ActiveRecord
             [['user_id', 'digest_interval', 'last_digest_sent_at'], 'integer'],
             [['is_active'], 'boolean'],
             [['name'], 'string', 'max' => 255],
+            // --- ДОБАВЛЕНО ПРАВИЛО ВАЛИДАЦИИ ---
+            [['digest_interval'], 'compare', 'compareValue' => 1, 'operator' => '>=', 'type' => 'number', 'message' => 'Интервал должен быть не менее 1 минуты.'],
+            // --- КОНЕЦ ДОБАВЛЕННОГО ПРАВИЛА ---
         ];
     }
 
